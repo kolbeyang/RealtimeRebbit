@@ -4,6 +4,9 @@ class OpenAI {
     openai: OpenAIApi;
 
     constructor(apiKey: string) {
+        if (!apiKey) {
+            console.log("Cannot initialize, no openai api key");
+        }
         this.openai = new OpenAIApi(new Configuration({ apiKey }));
     }
     async generateText(prompt: string, model: string, max_tokens: number, temperature = 0.85) {

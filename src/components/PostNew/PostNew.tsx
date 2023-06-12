@@ -5,6 +5,7 @@ import { createPost, selectIsLoading } from "../../Store/post.slice";
 import { store } from "../../Store/store";
 import OpenAI from "../../helpers/openai";
 import { GENERATE_POST_CONFIG, GENERATE_TITLE_CONFIG } from "../../helpers/openaiConfig";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 interface PostNewProps {}
 
@@ -80,7 +81,7 @@ const PostNew: FC<PostNewProps> = () => {
   }
 
   if (isLoading) {
-    return <h3>Loading...</h3>;
+    return <LoadingPage/>;
   }
 
   const handleInputChange = (event:React.ChangeEvent<HTMLInputElement> |  React.ChangeEvent<HTMLTextAreaElement>) => {
