@@ -16,6 +16,7 @@ import OpenAI from "../../helpers/openai";
 interface PostCommentProps { }
 
 const apiKey = process.env.REACT_APP_OPENAI;
+if (!apiKey) console.log("No openai key found");
 const openAIApi = new OpenAI(apiKey!);
 
 const PostComment: FC<PostCommentProps> = () => {
