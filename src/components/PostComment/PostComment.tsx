@@ -1,17 +1,16 @@
+import moment from "moment";
 import React, { FC, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { BASE_URL } from "../../App";
-import axios from "axios";
 import { useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Comment, Post } from "../../Store/post.model";
 import {
   commentPost,
   selectAllPosts,
-  selectIsLoading,
-  updatePost,
+  selectIsLoading
 } from "../../Store/post.slice";
-import { Post, Comment } from "../../Store/post.model";
-import { Button, Card, Elevation } from "@blueprintjs/core";
 import { store } from "../../Store/store";
+import LoadingPage from "../LoadingPage/LoadingPage";
+import './PostComment.css';
 
 interface PostCommentProps { }
 
@@ -24,11 +23,15 @@ const PostComment: FC<PostCommentProps> = () => {
   const isLoading = useSelector(selectIsLoading);
 
   if (isLoading) {
-    return <h3>Loading...</h3>;
+    return <LoadingPage/>;
   }
 
-  const post = posts.filter((post: Post) => post && post._id === id)[0];
+  const post = posts.find((post: Post) => post && post._id === id);
 
+  if (!post) {
+    return <LoadingPage/>;
+  }
+ 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("The comment field is ", commentField);
@@ -42,40 +45,39 @@ const PostComment: FC<PostCommentProps> = () => {
   };
 
   return (
-    <>
-      <div className="card">
-        <button onClick={() => navigate("/posts")}>Back</button>
-        <h3>View Post</h3>
-        <h3>ID: {post._id}</h3>
-        <h3>TITLE: {post.title}</h3>
-        <h3>CONTENT: {post.content}</h3>
-        <h3>COMMENT COUNT: {post.comments.length}</h3>
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <label>
-            Comment:
-            <input
-              data-test="post-comment-input"
-              type="text"
-              name="comment"
-              onChange={(e) => setCommentfield(e.target.value)}
-            />
-          </label>
+    <div className="bounding-box">
+      <div className="post-comment-spacer"/>
+      <Link className="back-button" to="/posts" >&lt; Back</Link>
+      <h1 className="post-comment-title">{post.title}</h1>
+      <p className="post-comment-date">Created {moment(post.createdAt).fromNow()}, updated {moment(post.updatedAt).fromNow()}</p>
+      <p className="post-comment-content">{post.content}</p>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <div className="card create-comment-card">
           <input
+            data-test="post-comment-input"
+            placeholder="Share your thoughts..."
+            className="comment-content comment-input"
+            type="text"
+            name="comment"
+            onChange={(e) => setCommentfield(e.target.value)}
+          />
+          <input
+            className="card-button post-comment-submit-button"
             data-test="post-comment-submit"
             type="submit"
             value="Submit"
           ></input>
-        </form>
-      </div>
+        </div>
+      </form>
+
 
       {post.comments.map((comment: Comment) => (
-        <div className="card">
-          COMMENT:
-          <h3>CONTENT: {comment.text}</h3>
-          <h3>CREATED AT: {comment.createdAt.toString()}</h3>
+        <div className="card comment-card">
+          <h3 className="comment-content">{comment.text}</h3>
+          <p className="comment-date">{moment(comment.createdAt).fromNow()}</p>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 

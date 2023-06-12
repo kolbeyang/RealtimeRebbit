@@ -1,12 +1,9 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import Root from "./Root";
 import { Provider } from "react-redux";
-import { store } from "./Store/store";
+import "./App.css";
+import Root from "./Root";
 import { getPosts } from "./Store/post.slice";
+import { store } from "./Store/store";
+import './variables.css';
 
 const BASE_URL = "https://realtime-rebbit-backend.vercel.app/api";
 

@@ -1,3 +1,21 @@
+* {
+  box-sizing: border-box;
+  color: var(--font-standard-color);
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.site-title {
+  margin: 0px;
+  font-size: 30pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -7,28 +25,176 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.bounding-box {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
+.button {
+  margin: 0px;
+}
+
 .card {
+  border-width: var(--border-standard-width);
+  border-color: var(--border-standard-color);
+  border-style: solid;
+  padding: 30px 20px 20px 20px;
+  display: block;
   width: 100%;
+  margin: 15px 0px;
+  border-radius: var(--border-standard-radius);
+  background-color: var(--background-standard-color);
+}
+
+.card:hover {
+  background-color: var(--background-select-card-color);
+  border-color: var(--border-select-card-color);
+}
+
+.create-new-post-button {
+  font-size: 16pt;
+  padding: 20px;
+}
+
+.create-new-post-button:hover {
+  background-color: var(--background-select-color);
+  border-color: var(--border-select-color);
+  color: var(--border-select-color);
 }
 
 .space {
   display: flex;
 }
 
+.card-title {
+  margin: 0px;
+}
+
+.card-title:hover {
+  color: var(--border-select-color);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.card-footer {
+  display: flex;
+  width: 100%;
+  bottom: 0px;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .button-box {
   display: inline-block;
-  float: right;
+  width: max-content;
+}
+
+.card-button {
+  margin-left: 8px;
+  padding: 6px 10px;
+  border-width: var(--border-inner-width);
+  border-radius: var(--border-inner-radius);
+  border-style: solid;
+  border-color: var(--border-standard-color);
+  background-color: rgba(0,0,0,0);
+  font-size: 10pt;
+}
+
+.card-button:hover {
+  background-color: var(--background-select-color);
+  border-color: var(--border-select-color);
+  color: var(--border-select-color);
+}
+
+.card-button-delete:hover {
+  background-color: var(--background-danger-color);
+  border-color: var(--border-danger-color);
+  color: var(--border-danger-color);
+}
+
+.comment-count-box {
+  height: auto;
+  display: inline-block;
+  width: max-content;
+  padding: 0px;
 }
 
 .comment-count {
   left: 0px;
+  width: auto;
 }
 
-.card-button {
-  margin-left: 15px;
+.sub-page-spacer {
+  height: 7vh;
 }
+
+.sub-page-title {
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+.errorMsg {
+  color: var(--border-danger-color);
+  background-color: var(--background-error-color);
+  width: fit-content;
+  padding: 8px;
+  border-radius: var(--border-inner-radius);
+  margin: 16px 0px;
+}
+
+.default-input {
+  background-color: var(--background-input-standard-color);
+  outline: none;
+  border-style: solid;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: var(--border-standard-radius);
+  border-color: var(--border-standard-color);
+  border-width: var(--border-standard-width);
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.default-input::placeholder {
+  color: var(--border-standard-color);
+}
+
+.default-input:focus {
+  background-color: var(--background-input-focus);
+  color: var(--font-input-focus-color);
+  border-color: var(--border-select-color);
+}
+
+.default-input:focus::placeholder {
+  color: var(--background-select-color);
+}
+
+.title-input {
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+.content-input {
+  font-size: 12pt;
+  resize: vertical;
+}
+
+.standalone-button {
+  background-color: var(--background-standard-color);
+  font-size: 16pt;
+  padding: 16px;
+  margin: 0px;
+  width: 100%;
+  border-width: var(--border-standard-width);
+}
+
+/* display: flex;
+justify-content: space-between;
+align-items: center; */

@@ -46,60 +46,66 @@ const initialState: PostsState = {
 
 export const createPost = createAsyncThunk(
   "posts/create",
-  async (post: { title: string; content: string }) => {
+  async (post: { title: string; content: string }, { rejectWithValue }) => {
     return axios
       .post(BASE_URL + "/posts", post)
       .then((res) => {
         return { post: res.data.data };
       })
       .catch((err) => {
-        return isRejectedWithValue({ message: err.response.data });
+        return rejectWithValue({ message: err.response.data });
       });
   }
 );
 
-export const getPosts = createAsyncThunk("posts/getAll", async () => {
-  return axios
-    .get(BASE_URL + "/posts")
-    .then((res) => {
-      return { posts: res.data.data };
-    })
-    .catch((err) => {
-      return isRejectedWithValue({ message: err.response.data });
-    });
-});
+export const getPosts = createAsyncThunk(
+  "posts/getAll",
+  async (_, { rejectWithValue }) => {
+    return axios
+      .get(BASE_URL + "/posts")
+      .then((res) => {
+        return { posts: res.data.data };
+      })
+      .catch((err) => {
+        return rejectWithValue({ message: err.response.data });
+      });
+  }
+);
 
 export const deletePost = createAsyncThunk(
   "posts/delete",
-  async (_id: string | null) => {
+  async (_id: string | null, { rejectWithValue }) => {
     return axios
       .delete(BASE_URL + "/posts/" + _id)
       .then((res) => {
         return { post: res.data.data };
       })
       .catch((err) => {
-        return isRejectedWithValue({ message: err.response.data });
+        return rejectWithValue({ message: err.response.data });
       });
   }
 );
 
 export const updatePost = createAsyncThunk(
   "posts/update",
-  async (post: { _id: string | null; title: string; content: string }) => {
+  async (
+    post: { _id: string | null; title: string; content: string },
+    { rejectWithValue }
+  ) => {
     return axios
       .put(BASE_URL + "/posts/" + post._id, post)
       .then((res) => {
         return { post: res.data.data };
       })
       .catch((err) => {
-        return isRejectedWithValue({ message: err.response.data });
+        return rejectWithValue({ message: err.response.data });
       });
   }
 );
 
 export const commentPost = createAsyncThunk(
   "posts/comment",
-  async (comment: Comment) => {
+  async (comment: Comment, { rejectWithValue }) => {
     return axios
       .post(BASE_URL + "/posts/" + comment._id + "/comments", {
         text: comment.text,
@@ -108,7 +114,7 @@ export const commentPost = createAsyncThunk(
         return { comment: comment };
       })
       .catch((err) => {
-        return isRejectedWithValue({ message: err.response.data });
+        return rejectWithValue({ message: err.message });
       });
   }
 );
@@ -184,7 +190,6 @@ const postsSlice = createSlice({
         state: PostsState,
         action: PayloadAction<CreatePostFulfilledPayload>
       ) => {
-        console.log("The actino payload is ", action.payload);
         const { post } = action.payload;
 
         state.isLoading = false;
@@ -246,13 +251,12 @@ const postsSlice = createSlice({
         action: PayloadAction<CommentPostFulfilledPayload>
       ) => {
         const { comment } = action.payload;
-
         state.isLoading = false;
 
         // the post that was commented on
-        let post: Post = state.posts.filter(
+        let post: Post = state.posts.find(
           (p: Post) => p && p._id === comment._id
-        )[0];
+        )!;
         // the posts array with the commented post removed
         let posts: Post[] = state.posts.filter(
           (p: Post) => p && p._id !== comment._id

@@ -1,0 +1,20 @@
+:root {
+    --border-standard-color: #CCCCCC;
+    --border-standard-width: 4px;
+    --border-inner-width: 3px;
+    --border-standard-radius: 10px;
+    --border-inner-radius: 8px;
+    --font-standard-color: #666666;
+    --background-standard-color: #fbfbfb;
+    --background-select-card-color: #eaebee;
+    --border-select-card-color: #b0b0b6;
+    --background-select-color: #a7cdff;
+    --border-select-color: #2480f8;
+    --background-danger-color: #ffa7ab;
+    --border-danger-color: #f82424;
+    --background-input-focus: #deecff;
+    --font-input-focus-color: #2480f8;
+    --background-input-standard-color: #f0f0f0;
+    --font-error-color: #f0384b;
+    --background-error-color: #ffeeef;
+}

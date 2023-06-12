@@ -7,7 +7,7 @@ import {
 } from "../../Store/post.slice";
 import { store } from "../../Store/store";
 import { Post } from "../../Store/post.model";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 interface PostEditProps {}
@@ -21,7 +21,7 @@ const PostEdit: FC<PostEditProps> = () => {
 
   const [state, setState] = useState({
     title: post?.title || "",
-    content: post?.title || ""
+    content: post?.content || ""
   });
   const navigate = useNavigate();
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -42,7 +42,7 @@ const PostEdit: FC<PostEditProps> = () => {
     navigate("/posts");
   };
 
-  const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event:React.ChangeEvent<HTMLInputElement> |  React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setState((prevProps) => ({
       ...prevProps,
@@ -51,42 +51,45 @@ const PostEdit: FC<PostEditProps> = () => {
   };
 
   return (
-    <div className="card">
-      <button onClick={() => navigate("/posts")}>Back</button>
-      <h3>Edit Post</h3>
+    <div className="bounding-box">
+      <div className="sub-page-spacer"/>
+      <Link className="back-button" to="/posts" >&lt; Back</Link>
+      <h1 className="sub-page-title">Edit post</h1>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           {errors.title && errors.title.type === "required" && (
-            <p className="errorMsg">Title is required.</p>
+            <div className="errorMsg">Title is required.</div>
           )}
-          <label>
-            Title:
-            <input
-              {...register("title", { required: true })}
-              type="text"
-              name="title"
-              onChange={handleInputChange}
-              value={state.title}
+          <input
+            {...register("title", { required: true })}
+            type="text"
+            id="new-post-title-input"
+            name="title"
+            className="default-input title-input"
+            placeholder="Title"
+            value={state.title}
+            onChange={handleInputChange}
             />
-          </label>
         </div>
         <div>
           {errors.content && errors.content.type === "required" && (
-            <p className="errorMsg">Content is required.</p>
+            <div className="errorMsg">Content is required.</div>
           )}
-          <label>
-            Content:
-            <input
-              {...register("content", { required: true })}
-              type="text"
-              name="content"
-              onChange={handleInputChange}
-              value={state.content}
-            />
-          </label>
+          <textarea
+            {...register("content", { required: true })}
+            id="new-post-content-input"
+            name="content"
+            className="default-input content-input"
+            placeholder="Write something interesting..."
+            value={state.content}
+            onChange={handleInputChange}
+          />
+
         </div>
-        <input type="submit" value="Submit"></input>
+        <input type="submit" className="card-button standalone-button" id="new-post-submit-button" value="Save changes"></input>
       </form>
+
     </div>
   );
 };
