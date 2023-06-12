@@ -186,6 +186,11 @@ code {
   resize: vertical;
 }
 
+.sub-page-button-box {
+  display: flex;
+  justify-content: space-between;
+}
+
 .standalone-button {
   background-color: var(--background-standard-color);
   font-size: 16pt;
@@ -193,6 +198,14 @@ code {
   margin: 0px;
   width: 100%;
   border-width: var(--border-standard-width);
+  outline: none;
+  cursor: pointer
+}
+
+.autofill-button {
+  width: 40%;
+  text-align: center;
+  margin-right: 12px;
 }
 
 /* display: flex;

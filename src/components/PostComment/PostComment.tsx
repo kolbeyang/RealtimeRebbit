@@ -11,12 +11,17 @@ import {
 import { store } from "../../Store/store";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import './PostComment.css';
+import OpenAI from "../../helpers/openai";
 
 interface PostCommentProps { }
+
+const apiKey = process.env.REACT_APP_OPENAI;
+const openAIApi = new OpenAI(apiKey!);
 
 const PostComment: FC<PostCommentProps> = () => {
   const { id } = useParams();
   const [commentField, setCommentfield] = useState("");
+  const [imageURL, setImageURL] = useState("");
   const navigate = useNavigate();
 
   const posts = useSelector(selectAllPosts);
@@ -30,6 +35,17 @@ const PostComment: FC<PostCommentProps> = () => {
 
   if (!post) {
     return <LoadingPage/>;
+  }
+
+  const handleVisualize = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    console.log("Generating visualization");
+    let prompt = "Generate a photo to accompany this post:\n\n";
+    prompt += post.title + "\n\n" + post.content;
+    let result = await openAIApi.generateImage(prompt);
+    result = result || "";
+    console.log("ImageURL is " + result);
+    setImageURL(result);
   }
  
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -48,8 +64,12 @@ const PostComment: FC<PostCommentProps> = () => {
     <div className="bounding-box">
       <div className="post-comment-spacer"/>
       <Link className="back-button" to="/posts" >&lt; Back</Link>
-      <h1 className="post-comment-title">{post.title}</h1>
+      <div className="post-comment-title-container">
+        <h1 className="post-comment-title">{post.title}</h1>
+        <button className="card-button standalone-button post-comment-visualize-button" onClick={handleVisualize}>Visualize</button>
+      </div>
       <p className="post-comment-date">Created {moment(post.createdAt).fromNow()}, updated {moment(post.updatedAt).fromNow()}</p>
+      {imageURL !== "" && <img src={imageURL} className="visualization-img"/>}
       <p className="post-comment-content">{post.content}</p>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="card create-comment-card">
