@@ -11,6 +11,7 @@ interface PostNewProps {}
 
 const apiKey = process.env.REACT_APP_OPENAI;
 if (!apiKey) console.log("No openai key found");
+console.log("API key " + apiKey);
 const openAIApi = new OpenAI(apiKey!);
 
 const PostNew: FC<PostNewProps> = () => {
